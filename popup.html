@@ -66,6 +66,7 @@
       border: 1px solid #eee;
       border-radius: 4px;
       background: white;
+      position: relative;
     }
 
     .list-item-header {
@@ -77,22 +78,53 @@
       align-items: center;
     }
 
+    .list-item-title {
+      flex: 1;
+      margin-right: 8px;
+    }
+
+    .list-item-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .list-item-actions span {
+      padding: 4px 8px;
+      cursor: pointer;
+      font-size: 14px;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .action-copy {
+      color: #007bff;
+      background: rgba(0, 123, 255, 0.1);
+    }
+
+    .action-copy:hover {
+      background: rgba(0, 123, 255, 0.2);
+    }
+
+    .action-delete {
+      color: #dc3545;
+      background: rgba(220, 53, 69, 0.1);
+    }
+
+    .action-delete:hover {
+      background: rgba(220, 53, 69, 0.2);
+    }
+
     .list-item-content {
       padding: 10px;
       border-top: 1px solid #eee;
       display: none;
       white-space: pre-wrap;
+      background: #fff;
     }
 
     .list-item.expanded .list-item-content {
       display: block;
-    }
-
-    .list-item-actions span {
-      margin-left: 8px;
-      padding: 4px 8px;
-      cursor: pointer;
-      font-size: 14px;
     }
 
     /* 添加按钮 */
@@ -223,6 +255,52 @@
       font-size: 12px;
       text-align: right;
     }
+
+    /* 删除确认对话框 */
+    .delete-confirm {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px;
+      background: white;
+      border-top: 1px solid #eee;
+      z-index: 1000;
+    }
+
+    .delete-confirm .message {
+      margin-bottom: 16px;
+      color: #333;
+      text-align: left;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .delete-confirm .buttons {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .delete-confirm button {
+      padding: 6px 12px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      background: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .delete-confirm button.confirm {
+      background: #dc3545;
+      color: white;
+      border-color: #dc3545;
+    }
+
+    .delete-confirm button:hover {
+      opacity: 0.9;
+    }
   </style>
 </head>
 <body>
@@ -257,8 +335,7 @@
         </div>
         <div class="about-content">
           <p>如果觉得本工具不错，还请分享给你的朋友！</p>
-          <p>如果你是开发者，欢迎参与进来 wechatsync/Wechatsync</p>
-          <p>使用教程: <a href="#">传送门</a></p>
+          <p>使用教程: <a href="https://github.com/siogo/prompt-helper">传送门</a></p>
           <div class="about-footer">by Siogo</div>
         </div>
       </div>

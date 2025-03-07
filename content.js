@@ -112,14 +112,21 @@ async function fetchManifestConfig() {
             xhr.send();
         } catch (error) {
             console.error('初始化失败:', {
-                message: error.message,
-                stack: error.stack,
-                name: error.name,
+                错误信息: error.message,
+                错误类型: error.name,
+                错误堆栈: error.stack,
+                发生位置: '内容脚本初始化过程',
+                时间戳: new Date().toISOString()
             });
-            // 可以添加用户提示
+            
+            // 向用户显示友好的错误提示
             chrome.runtime.sendMessage({
                 action: 'showError',
-                error: '扩展程序初始化失败，请检查配置文件是否存在',
+                error: {
+                    title: '初始化失败',
+                    message: `扩展初始化失败，请刷新页面重试。\n具体错误：${error.message}`,
+                    type: 'error'
+                }
             });
             reject(error);
         }
@@ -186,14 +193,21 @@ async function initialize() {
         }
     } catch (error) {
         console.error('初始化失败:', {
-            message: error.message,
-            stack: error.stack,
-            name: error.name,
+            错误信息: error.message,
+            错误类型: error.name,
+            错误堆栈: error.stack,
+            发生位置: '内容脚本初始化过程',
+            时间戳: new Date().toISOString()
         });
-        // 可以添加用户提示
+        
+        // 向用户显示友好的错误提示
         chrome.runtime.sendMessage({
             action: 'showError',
-            error: '扩展程序初始化失败，请检查配置文件是否存在',
+            error: {
+                title: '初始化失败',
+                message: `扩展初始化失败，请刷新页面重试。\n具体错误：${error.message}`,
+                type: 'error'
+            }
         });
     }
 }

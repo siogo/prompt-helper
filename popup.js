@@ -96,6 +96,7 @@ function renderList(items = []) {
 
         // 创建标题文本
         const titleSpan = document.createElement('span');
+        titleSpan.className = 'list-item-title';
         titleSpan.textContent = item.title;
 
         // 创建操作按钮区域
@@ -105,11 +106,13 @@ function renderList(items = []) {
         // 创建复制按钮
         const copyButton = document.createElement('span');
         copyButton.textContent = '复制';
+        copyButton.className = 'action-copy';
         copyButton.addEventListener('click', (e) => copyContent(e, index));
 
         // 创建删除按钮
         const deleteButton = document.createElement('span');
         deleteButton.textContent = '删除';
+        deleteButton.className = 'action-delete';
         deleteButton.addEventListener('click', (e) => deleteItem(e, index));
 
         // 创建内容区域
@@ -126,7 +129,12 @@ function renderList(items = []) {
         itemElement.appendChild(contentDiv);
 
         // 添加展开/收起事件监听
-        headerElement.addEventListener('click', () => toggleItem(index));
+        headerElement.addEventListener('click', (e) => {
+            // 如果点击的是按钮，不触发展开/收起
+            if (!e.target.classList.contains('action-copy') && !e.target.classList.contains('action-delete')) {
+                toggleItem(index);
+            }
+        });
 
         listContainer.appendChild(itemElement);
     });
@@ -148,17 +156,49 @@ async function copyContent(event, index) {
 async function deleteItem(event, index) {
     event.stopPropagation();
 
+    // 隐藏添加按钮
+    addButton.style.display = 'none';
+
     // 创建确认弹窗
     const confirmDialog = document.createElement('div');
     confirmDialog.className = 'delete-confirm';
-    confirmDialog.innerHTML = `
-        <div>确定要删除这条提示词吗？</div>
-        <div class="buttons">
-            <button onclick="this.parentElement.parentElement.remove()">取消</button>
-            <button class="confirm" onclick="confirmDelete(${index})">删除</button>
-        </div>
-    `;
+    
+    // 使用 DOM 方式创建元素
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message';
+    messageDiv.textContent = '确定要删除这条提示词吗？';
+    
+    const buttonsDiv = document.createElement('div');
+    buttonsDiv.className = 'buttons';
+    
+    const cancelButton = document.createElement('button');
+    cancelButton.textContent = '取消';
+    
+    const confirmButton = document.createElement('button');
+    confirmButton.textContent = '删除';
+    confirmButton.className = 'confirm';
+    
+    // 添加事件监听器
+    cancelButton.addEventListener('click', () => {
+        confirmDialog.remove();
+        addButton.style.display = 'block'; // 恢复添加按钮
+    });
+    
+    confirmButton.addEventListener('click', () => {
+        confirmDelete(index);
+        addButton.style.display = 'block'; // 恢复添加按钮
+    });
+    
+    // 组装 DOM
+    buttonsDiv.appendChild(cancelButton);
+    buttonsDiv.appendChild(confirmButton);
+    confirmDialog.appendChild(messageDiv);
+    confirmDialog.appendChild(buttonsDiv);
+    
     document.body.appendChild(confirmDialog);
+    
+    // 显示确认框
+    confirmDialog.style.display = 'block';
 }
 
 async function confirmDelete(index) {
