@@ -71,31 +71,6 @@ Coming soon...
   - No login required
   - No user data collection
 
-## 🤝 Contributing
-
-We welcome all forms of contributions! Here's how you can participate:
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Types of Contributions
-- 🐛 Bug fixes
-- ✨ New features
-- 📝 Documentation improvements
-- 🎨 Code formatting
-- ⚡️ Performance improvements
-
-## 📝 Changelog
-
-### [1.0.0] - 2024-XX-XX
-- 🎉 Initial release
-- ✨ Basic prompt management functionality
-- 🚀 One-click copy feature
-- 💾 Local storage support
-
 ## 📜 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
@@ -105,10 +80,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Submit Issues: [GitHub Issues](https://github.com/siogo/prompt-helper/issues)
 - Email: mysiogo@gmail.com
 
-## 🙏 Acknowledgments
 
-Thanks to all developers who have contributed to this project!
-
----
-
-<p align="center">Made with ❤️</p> 
