@@ -1,0 +1,30 @@
+{
+  "name": "model-prompt-helper",
+  "version": "1.0.0",
+  "description": "A lightweight Chrome extension for managing AI prompts efficiently",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write \"src/**/*.{js,html,css,json}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/siogo/prompt-helper.git"
+  },
+  "keywords": [
+    "chrome-extension",
+    "ai",
+    "prompt",
+    "chatgpt",
+    "claude"
+  ],
+  "author": "Siogo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/siogo/prompt-helper/issues"
+  },
+  "homepage": "https://github.com/siogo/prompt-helper#readme",
+  "devDependencies": {
+    "prettier": "^2.8.8"
+  }
+}

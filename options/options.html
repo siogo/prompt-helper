@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>管理自定义网站</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <h2>添加/编辑提示</h2>
+  <form id="addForm">
+    <div>
+      <label for="hostInput">目标域名:</label>
+      <input type="text" id="hostInput" placeholder="例：midjourney.com" required>
+    </div>
+    <div>
+      <label for="promptInput">提示语:</label>
+      <textarea id="promptInput" placeholder="输入自定义提示" required></textarea>
+    </div>
+    <button type="submit">保存配置</button>
+  </form>
+
+  <h2>现有配置列表</h2>
+  <div id="configList"></div>
+
+  <script src="options.js"></script>
+</body>
+</html>

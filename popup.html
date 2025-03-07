@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>提示助手</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
+  <style>
+    body {
+      width: 360px;
+      height: 480px;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
+
+    /* 导航栏 */
+    .nav-tabs {
+      display: flex;
+      background: white;
+      border-bottom: 1px solid #eee;
+    }
+
+    .nav-tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .nav-tab.active {
+      color: #007bff;
+      border-bottom: 2px solid #007bff;
+    }
+
+    /* 页面容器 */
+    .page {
+      display: none;
+      height: calc(100vh - 41px); /* 减去导航栏高度 */
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* 列表页面 */
+    .page-header {
+      padding: 12px;
+      background: white;
+      border-bottom: 1px solid #eee;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .list-container {
+      box-sizing: border-box;
+      height: calc(100vh - 97px); /* 减去导航栏和标题高度 */
+      overflow-y: auto;
+      padding: 8px;
+      background: #f5f5f5;
+    }
+
+    /* 列表项 */
+    .list-item {
+      margin-bottom: 8px;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      background: white;
+    }
+
+    .list-item-header {
+      padding: 10px;
+      background: #f8f9fa;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .list-item-content {
+      padding: 10px;
+      border-top: 1px solid #eee;
+      display: none;
+      white-space: pre-wrap;
+    }
+
+    .list-item.expanded .list-item-content {
+      display: block;
+    }
+
+    .list-item-actions span {
+      margin-left: 8px;
+      padding: 4px 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* 添加按钮 */
+    #addButton {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      width: 48px;
+      height: 48px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 24px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* 输入表单 */
+    #addItemInputContainer {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px;
+      background: white;
+      border-top: 1px solid #eee;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-group input, 
+    .input-group textarea {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    .input-group textarea {
+      height: 100px;
+      resize: none;
+    }
+
+    .input-group button {
+      padding: 6px 12px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      background: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #saveButton {
+      background: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+
+    /* 通知提示 */
+    #notification {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      padding: 8px 12px;
+      background: #28a745;
+      color: white;
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .page-header,
+    .nav-tabs {
+      background: white;
+    }
+
+    /* 关于页面样式 */
+    .about-container {
+      padding: 12px;
+      background: #f5f5f5;
+      height: calc(100vh - 97px);
+      box-sizing: border-box;
+    }
+
+    .about-card {
+      background: white;
+      border: 1px solid #eee;
+      border-radius: 4px;
+    }
+
+    .about-header {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8f9fa;
+    }
+
+    .close-btn {
+      color: #666;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .about-content {
+      padding: 12px;
+    }
+
+    .about-content p {
+      margin: 8px 0;
+      color: #333;
+    }
+
+    .about-content a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .about-footer {
+      margin-top: 12px;
+      color: #666;
+      font-size: 12px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-tabs">
+    <div class="nav-tab active" data-page="home">提示词</div>
+    <div class="nav-tab" data-page="about">关于</div>
+  </div>
+
+  <div id="homePage" class="page active">
+    <div class="page-header">Prompt 管理</div>
+    <div class="list-container" id="listContainer"></div>
+    <div id="addItemInputContainer">
+      <div class="input-group">
+        <input type="text" id="titleInput" placeholder="输入标题..." />
+        <textarea id="contentInput" placeholder="输入详细内容..."></textarea>
+        <div style="display: flex; gap: 8px; justify-content: flex-end">
+          <button id="cancelButton">取消</button>
+          <button id="saveButton">保存</button>
+        </div>
+      </div>
+    </div>
+    <button id="addButton">+</button>
+  </div>
+
+  <div id="aboutPage" class="page">
+    <div class="page-header">关于</div>
+    <div class="about-container">
+      <div class="about-card">
+        <div class="about-header">
+          <span>感谢支持！</span>
+          <span class="close-btn">×</span>
+        </div>
+        <div class="about-content">
+          <p>如果觉得本工具不错，还请分享给你的朋友！</p>
+          <p>如果你是开发者，欢迎参与进来 wechatsync/Wechatsync</p>
+          <p>使用教程: <a href="#">传送门</a></p>
+          <div class="about-footer">by Siogo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="notification"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+{
+  "manifest_version": 3,
+  "name": "Model Prompt Helper",
+  "version": "1.0",
+  "description": "AI Prompt 管理助手 - 一款轻量级的提示词管理工具，帮助你高效管理和使用 AI 提示词。支持分类保存、快速复制、实时预览等功能，让你的 AI 对话更加便捷。适用于 ChatGPT、Claude 等各类 AI 平台。",
+  "icons": {
+    "16": "icons/16.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/16.png",
+      "48": "icons/48.png",
+      "128": "icons/128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>",
+        "https://*/*",
+        "http://*/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "options_page": "options/options.html",
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/*",
+        "assets/defaultConfig.json"
+      ],
+      "matches": [
+        "<all_urls>",
+        "https://*/*",
+        "http://*/*"
+      ]
+    }
+  ]
+}
